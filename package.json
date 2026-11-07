@@ -1,0 +1,63 @@
+{
+  "name": "fullstack-starter",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "workspaces": [
+    "shared",
+    "config",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c blue,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "services:up": "docker compose up -d --wait",
+    "services:down": "docker compose down",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "knip": "knip",
+    "deps:graph": "depcruise client/src server/src shared/src config/src",
+    "dupes": "jscpd",
+    "audit": "npm audit --audit-level=high --omit=dev",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run knip && npm run deps:graph && npm run dupes",
+    "db:migrate": "npm run db:migrate -w server",
+    "db:migrate:down": "npm run db:migrate:down -w server",
+    "db:migrate:new": "npm run db:migrate:new -w server --",
+    "mcp": "npm run mcp -w server",
+    "prepare": "husky || true",
+    "test:watch": "vitest"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml,css,html}": "prettier --write"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "concurrently": "^10.0.7",
+    "dependency-cruiser": "^18.7.2",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "husky": "^9.1.7",
+    "jscpd": "^5.4.2",
+    "knip": "^6.44.2",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.1.0"
+  }
+}
