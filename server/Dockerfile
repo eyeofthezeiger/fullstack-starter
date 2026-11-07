@@ -1,5 +1,5 @@
 # Build from the repo root: docker build -f server/Dockerfile .
-FROM node:24-alpine AS build
+FROM node:25-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json tsconfig.base.json ./
 COPY shared/package.json shared/
@@ -12,7 +12,7 @@ COPY config config
 COPY server server
 RUN npm run build -w @app/shared -w @app/config -w @app/server
 
-FROM node:24-alpine AS runtime
+FROM node:25-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 COPY package.json package-lock.json ./
